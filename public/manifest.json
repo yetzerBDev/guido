@@ -1,0 +1,28 @@
+{
+  "name": "GUIDO App",
+  "short_name": "GUIDO",
+  "description": "Explora lugares recomendados en tiempo real con GUIDO.",
+  "theme_color": "#0B5FFF",
+  "background_color": "#F5F9FF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
