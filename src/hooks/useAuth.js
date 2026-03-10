@@ -1,11 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
-import { supabase } from '../lib/supabaseClient'
+import { isSupabaseConfigured, supabase } from '../lib/supabaseClient'
 
 export function useAuth() {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setLoading(false)
+      return
+    }
+
     let mounted = true
 
     const hydrateSession = async () => {
@@ -32,21 +37,37 @@ export function useAuth() {
   }, [])
 
   const signIn = async ({ email, password }) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return new Error('Supabase no esta configurado.')
+    }
+
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     return error
   }
 
   const signUp = async ({ email, password }) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return new Error('Supabase no esta configurado.')
+    }
+
     const { error } = await supabase.auth.signUp({ email, password })
     return error
   }
 
   const signOut = async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      return new Error('Supabase no esta configurado.')
+    }
+
     const { error } = await supabase.auth.signOut()
     return error
   }
 
   const signInWithGoogle = async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      return new Error('Supabase no esta configurado.')
+    }
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
