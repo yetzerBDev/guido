@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useOnboardingStatus } from '../hooks/useOnboardingStatus'
 import { useAuth } from '../hooks/useAuth'
+import { isSupabaseConfigured, supabase } from '../lib/supabaseClient'
 
 function IconBubble({ children, selected = false, compact = false }) {
   return (
@@ -144,7 +144,6 @@ const interestIcons = {
 export function Onboarding() {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { completeOnboarding } = useOnboardingStatus(user)
 
   const [step, setStep] = useState(1)
   const [motive, setMotive] = useState('')
@@ -173,7 +172,27 @@ export function Onboarding() {
     if (step === 2) {
       setSaving(true)
       setStep(3)
-      const submitError = await completeOnboarding({ motive, interests })
+
+      if (!user) {
+        setSaving(false)
+        setStep(2)
+        setError('No hay sesion activa.')
+        return
+      }
+
+      if (!isSupabaseConfigured || !supabase) {
+        setSaving(false)
+        setStep(2)
+        setError('Supabase no esta configurado.')
+        return
+      }
+
+      const { error: rpcError } = await supabase.rpc('complete_onboarding', {
+        p_motive: motive,
+        p_interests: interests,
+      })
+
+      const submitError = rpcError?.message ?? null
 
       if (submitError) {
         setSaving(false)

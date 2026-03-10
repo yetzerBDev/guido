@@ -2,13 +2,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient'
 
 export function useOnboardingStatus(user) {
-  const [loading, setLoading] = useState(Boolean(user))
+  const userId = user?.id ?? null
+  const usernameFallback =
+    user?.user_metadata?.username ?? user?.user_metadata?.full_name ?? user?.email ?? 'usuario'
+  const [loading, setLoading] = useState(Boolean(userId))
   const [needsOnboarding, setNeedsOnboarding] = useState(false)
   const [step, setStep] = useState(0)
   const [error, setError] = useState(null)
 
   const fetchProfile = useCallback(async () => {
-    if (!user) {
+    if (!userId) {
       setNeedsOnboarding(false)
       setStep(0)
       setError(null)
@@ -24,13 +27,12 @@ export function useOnboardingStatus(user) {
       return
     }
 
-    setLoading(true)
     setError(null)
 
     const { data, error: profileError } = await supabase
       .from('profiles')
       .select('onboarding_completed, onboarding_step')
-      .eq('id', user.id)
+      .eq('id', userId)
       .maybeSingle()
 
     if (profileError) {
@@ -44,8 +46,8 @@ export function useOnboardingStatus(user) {
     if (!data) {
       const { error: upsertError } = await supabase.from('profiles').upsert(
         {
-          id: user.id,
-          username: user.user_metadata?.username ?? user.user_metadata?.full_name ?? user.email,
+          id: userId,
+          username: usernameFallback,
           onboarding_completed: false,
           onboarding_step: 0,
         },
@@ -70,15 +72,16 @@ export function useOnboardingStatus(user) {
     setNeedsOnboarding(!completed)
     setStep(data.onboarding_step ?? 0)
     setLoading(false)
-  }, [user])
+  }, [userId, usernameFallback])
 
   useEffect(() => {
+    setLoading(Boolean(userId))
     fetchProfile()
-  }, [fetchProfile])
+  }, [fetchProfile, userId])
 
   const completeOnboarding = useCallback(
     async ({ motive, interests }) => {
-      if (!user) {
+      if (!userId) {
         return 'No hay sesion activa.'
       }
 
@@ -102,7 +105,7 @@ export function useOnboardingStatus(user) {
       setStep(3)
       return null
     },
-    [user],
+    [userId],
   )
 
   return useMemo(
