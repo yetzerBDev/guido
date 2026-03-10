@@ -46,6 +46,17 @@ export function useAuth() {
     return error
   }
 
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/login`,
+      },
+    })
+
+    return error
+  }
+
   return useMemo(
     () => ({
       user: session?.user ?? null,
@@ -54,6 +65,7 @@ export function useAuth() {
       signIn,
       signUp,
       signOut,
+      signInWithGoogle,
     }),
     [session, loading],
   )
