@@ -17,10 +17,7 @@ export function usePlaces() {
     setError(null)
 
     try {
-      const { data, error: queryError } = await supabase
-        .from('places')
-        .select('id, name, city, description, whatsapp, image_url')
-        .order('id', { ascending: true })
+      const { data, error: queryError } = await supabase.from('places').select('*').order('id', { ascending: true })
 
       if (queryError) {
         setError(queryError.message)
@@ -28,7 +25,18 @@ export function usePlaces() {
         return
       }
 
-      setPlaces(data ?? [])
+      const normalizedPlaces = (data ?? []).map((place) => ({
+        ...place,
+        city:
+          place.city ??
+          place.ciudad ??
+          place.location_city ??
+          place.location ??
+          place.municipio ??
+          'La Ceiba',
+      }))
+
+      setPlaces(normalizedPlaces)
       setLoading(false)
     } catch {
       setError('No se pudo cargar lugares. Verifica la conexion y configuracion de Supabase.')
