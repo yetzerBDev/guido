@@ -32,21 +32,21 @@ export function LoginRegistro() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#F6F8FC_0%,#EEF4FB_52%,#F8FAFE_100%)]">
-      <section className="mx-auto flex w-full max-w-md flex-col items-center px-6 pb-10 pt-8 sm:pt-10">
+    <main className="min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,#F6F8FC_0%,#EEF4FB_52%,#F8FAFE_100%)]">
+      <section className="mx-auto flex w-full max-w-md flex-col items-center px-4 pb-7 pt-5 sm:px-6 sm:pb-10 sm:pt-10">
         <img
           src="/GUIDO_SALUDANDO.png"
           alt="Guido saludando"
-          className="reveal-float pointer-events-none -mb-4 h-[330px] w-auto object-contain drop-shadow-[0_18px_30px_rgba(6,19,56,0.18)] sm:h-[390px]"
+          className="reveal-float pointer-events-none -mb-2 h-[min(42vh,300px)] w-auto object-contain drop-shadow-[0_18px_30px_rgba(6,19,56,0.18)] sm:-mb-4 sm:h-[390px]"
         />
 
-        <h1 className="reveal-up text-center text-5xl font-black leading-[1.08] tracking-tight text-[#061338] sm:text-6xl">
+        <h1 className="reveal-up text-center text-[clamp(2.9rem,10vw,4.4rem)] font-black leading-[1.05] tracking-tight text-[#061338] sm:text-6xl">
           Hola, soy Guido,
           <br />
           tu guia personal.
         </h1>
 
-        <p className="reveal-up mt-6 text-center text-xl leading-relaxed text-[#455A78] sm:text-2xl">
+        <p className="reveal-up mt-4 text-center text-[clamp(1.45rem,4.8vw,1.7rem)] leading-snug text-[#455A78] sm:mt-6 sm:text-2xl sm:leading-relaxed">
           Conectate con Google y empecemos a disenar tu aventura perfecta en La Ceiba.
         </p>
 
@@ -68,9 +68,9 @@ export function LoginRegistro() {
             type="button"
             onClick={handleGoogleAuth}
             disabled={authLoading}
-            className="reveal-up mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-[#1EA0E8] px-6 py-4 text-xl font-extrabold text-white shadow-[0_10px_24px_rgba(30,160,232,0.38)] transition hover:-translate-y-0.5 hover:bg-[#1692d8] disabled:cursor-not-allowed disabled:opacity-70"
+            className="reveal-up mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-[#1EA0E8] px-4 py-3.5 text-[clamp(1.2rem,4.2vw,1.35rem)] font-extrabold text-white shadow-[0_10px_24px_rgba(30,160,232,0.38)] transition hover:-translate-y-0.5 hover:bg-[#1692d8] disabled:cursor-not-allowed disabled:opacity-70 sm:mt-8 sm:px-6 sm:py-4 sm:text-xl"
           >
-            <span className="grid h-10 w-10 place-content-center rounded-full bg-white">
+            <span className="grid h-9 w-9 place-content-center rounded-full bg-white sm:h-10 sm:w-10">
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
                 <path
                   fill="#EA4335"
@@ -96,16 +96,19 @@ export function LoginRegistro() {
 
         {message ? <p className="mt-4 text-center text-sm text-red-600">{message}</p> : null}
 
-        <p className="reveal-up mt-6 text-center text-sm leading-relaxed text-[#8B9AB3]">
+        <p className="reveal-up mt-5 text-center text-[clamp(0.95rem,3.3vw,1.05rem)] leading-snug text-[#8B9AB3] sm:mt-6 sm:text-sm sm:leading-relaxed">
           Al continuar, aceptas que GUIDO gestione tus planes de viaje y acceda a tu perfil
           publico.
         </p>
 
-        <Link to="/terminos" className="reveal-up mt-9 text-xl font-semibold text-[#2AA7EA] hover:underline">
+        <Link
+          to="/terminos"
+          className="reveal-up mt-6 text-[clamp(1.45rem,4.6vw,1.8rem)] font-semibold text-[#2AA7EA] hover:underline sm:mt-9 sm:text-xl"
+        >
           Terminos y Condiciones
         </Link>
 
-        <div className="mt-10 h-1 w-44 rounded-full bg-[#d9e0ec]" />
+        <div className="mt-6 h-1 w-36 rounded-full bg-[#d9e0ec] sm:mt-10 sm:w-44" />
       </section>
     </main>
   )
