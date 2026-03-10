@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 export function LoginRegistro() {
   const { user, loading, signInWithGoogle, signOut } = useAuth()
+  const navigate = useNavigate()
   const [message, setMessage] = useState('')
   const [authLoading, setAuthLoading] = useState(false)
 
@@ -51,9 +52,16 @@ export function LoginRegistro() {
             <p className="mt-1 truncate text-sm text-slate-600">{user.email}</p>
             <button
               type="button"
+              onClick={() => navigate('/explorar')}
+              className="mt-4 w-full rounded-full bg-[#1EA0E8] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#1692d8]"
+            >
+              Entrar a GUIDO
+            </button>
+            <button
+              type="button"
               onClick={handleSignOut}
               disabled={authLoading}
-              className="mt-4 w-full rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-slate-800 disabled:opacity-70"
+              className="mt-3 w-full rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-slate-800 disabled:opacity-70"
             >
               {authLoading ? 'Cerrando sesion...' : 'Cerrar sesion'}
             </button>
