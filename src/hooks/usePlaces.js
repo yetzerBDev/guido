@@ -17,7 +17,11 @@ export function usePlaces() {
     setError(null)
 
     try {
-      const { data, error: queryError } = await supabase.from('places').select('*').order('id', { ascending: true })
+      const { data, error: queryError } = await supabase
+        .from('places')
+        .select('id, category_id, name, description, whatsapp_link, maps_link, lat, lng, is_active, created_at')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false })
 
       if (queryError) {
         setError(queryError.message)
@@ -27,13 +31,9 @@ export function usePlaces() {
 
       const normalizedPlaces = (data ?? []).map((place) => ({
         ...place,
-        city:
-          place.city ??
-          place.ciudad ??
-          place.location_city ??
-          place.location ??
-          place.municipio ??
-          'La Ceiba',
+        city: 'La Ceiba',
+        whatsapp: place.whatsapp_link ?? '',
+        image_url: place.image_url ?? '',
       }))
 
       setPlaces(normalizedPlaces)
