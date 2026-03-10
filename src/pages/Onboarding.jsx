@@ -52,6 +52,61 @@ function SparkIcon() {
   )
 }
 
+function MountainIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M3 20l6.5-9 3 4 2.5-3 6 8H3z" />
+      <path d="M10 11l1.5-2 1.5 2" />
+    </svg>
+  )
+}
+
+function ForkKnifeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M6 3v7" />
+      <path d="M9 3v7" />
+      <path d="M6 7h3" />
+      <path d="M7.5 10v11" />
+      <path d="M15 3v7" />
+      <path d="M18 3v18" />
+      <path d="M15 10h3" />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M14 3a8 8 0 1 0 7 11.5A9 9 0 0 1 14 3z" />
+      <path d="M4 4l1 1" />
+      <path d="M8 2v2" />
+    </svg>
+  )
+}
+
+function PalmIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 10c1.5-3 4-4 7-4-1 2-3 3-5 3" />
+      <path d="M12 10c-1.5-3-4-4-7-4 1 2 3 3 5 3" />
+      <path d="M12 10c0-3 2-5 4-6" />
+      <path d="M12 10v10" />
+      <path d="M10 20h4" />
+    </svg>
+  )
+}
+
+function CultureIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M3 20h18" />
+      <path d="M4 20V9l8-5 8 5v11" />
+      <path d="M8 20v-6h8v6" />
+    </svg>
+  )
+}
+
 const motiveIcons = {
   paseo: <CompassIcon />,
   negocios: <BriefcaseIcon />,
@@ -79,11 +134,11 @@ const motives = [
 const interestOptions = ['Adrenalina/Aventura', 'Comida Local', 'Vida Nocturna', 'Relax/Playa', 'Cultura']
 
 const interestIcons = {
-  'Adrenalina/Aventura': 'A',
-  'Comida Local': 'C',
-  'Vida Nocturna': 'N',
-  'Relax/Playa': 'R',
-  Cultura: 'U',
+  'Adrenalina/Aventura': <MountainIcon />,
+  'Comida Local': <ForkKnifeIcon />,
+  'Vida Nocturna': <MoonIcon />,
+  'Relax/Playa': <PalmIcon />,
+  Cultura: <CultureIcon />,
 }
 
 export function Onboarding() {
@@ -186,9 +241,9 @@ export function Onboarding() {
             <p className="mt-2 text-slate-600">Selecciona tus intereses para personalizar tu aventura.</p>
 
             <img
-              src="/GUIDO_SALUDANDO.png"
-              alt="Guido"
-              className="mt-6 h-56 w-full rounded-3xl bg-slate-100 object-contain p-5 sm:h-80"
+              src="/GUIDO_RECOMENDADOR.png"
+              alt="Guido recomendador"
+              className="reveal-float mt-4 h-[min(42vh,360px)] w-full object-contain drop-shadow-[0_16px_26px_rgba(6,19,56,0.2)] sm:h-[430px]"
             />
 
             <div className="mt-6 flex flex-wrap gap-2">
@@ -205,9 +260,7 @@ export function Onboarding() {
                         : 'border-slate-300 bg-white text-[#0B173B] hover:border-[#94d0f1]'
                     }`}
                   >
-                    <IconBubble selected={selected} compact>
-                      <span className="text-[10px] font-black">{interestIcons[item]}</span>
-                    </IconBubble>
+                    <IconBubble selected={selected} compact>{interestIcons[item]}</IconBubble>
                     {item}
                   </button>
                 )
