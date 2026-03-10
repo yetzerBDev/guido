@@ -75,10 +75,6 @@ function App() {
       return <Navigate to="/onboarding" replace />
     }
 
-    if (user) {
-      return <Navigate to="/explorar" replace />
-    }
-
     return <LoginRegistro />
   }
 
