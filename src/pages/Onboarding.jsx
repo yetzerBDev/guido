@@ -3,6 +3,61 @@ import { useNavigate } from 'react-router-dom'
 import { useOnboardingStatus } from '../hooks/useOnboardingStatus'
 import { useAuth } from '../hooks/useAuth'
 
+function IconBubble({ children, selected = false, compact = false }) {
+  return (
+    <span
+      className={`grid place-content-center rounded-full ${
+        compact ? 'h-6 w-6' : 'h-11 w-11'
+      } ${selected ? 'bg-[#1EA0E8] text-white' : 'bg-[#E8F4FB] text-[#1EA0E8]'}`}
+      aria-hidden="true"
+    >
+      {children}
+    </span>
+  )
+}
+
+function CompassIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M14.7 9.3l-2 5-5 2 2-5 5-2z" />
+    </svg>
+  )
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      <path d="M3 12h18" />
+    </svg>
+  )
+}
+
+function PinIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M12 22s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  )
+}
+
+function SparkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor">
+      <path d="M12 2l1.8 4.8L19 8.6l-4 2.8 1.5 4.6-4.5-2.8-4.5 2.8L9 11.4l-4-2.8 5.2-1.8L12 2z" />
+    </svg>
+  )
+}
+
+const motiveIcons = {
+  paseo: <CompassIcon />,
+  negocios: <BriefcaseIcon />,
+  local: <PinIcon />,
+}
+
 const motives = [
   {
     key: 'paseo',
@@ -22,6 +77,14 @@ const motives = [
 ]
 
 const interestOptions = ['Adrenalina/Aventura', 'Comida Local', 'Vida Nocturna', 'Relax/Playa', 'Cultura']
+
+const interestIcons = {
+  'Adrenalina/Aventura': 'A',
+  'Comida Local': 'C',
+  'Vida Nocturna': 'N',
+  'Relax/Playa': 'R',
+  Cultura: 'U',
+}
 
 export function Onboarding() {
   const navigate = useNavigate()
@@ -75,7 +138,12 @@ export function Onboarding() {
     <main className="min-h-screen bg-[#F3F5F8] px-4 pb-10 pt-6 sm:pt-10">
       <section className="mx-auto w-full max-w-4xl rounded-3xl bg-white/70 p-4 sm:p-8">
         <div className="mb-6 flex items-center justify-between border-b border-slate-200 pb-4">
-          <p className="text-lg font-extrabold text-[#0B173B]">Onboarding</p>
+          <p className="flex items-center gap-2 text-lg font-extrabold text-[#0B173B]">
+            <IconBubble compact>
+              <SparkIcon />
+            </IconBubble>
+            Onboarding
+          </p>
           <button
             type="button"
             onClick={() => navigate('/explorar')}
@@ -103,6 +171,7 @@ export function Onboarding() {
                       : 'border-slate-200 bg-white hover:border-[#B8DFF4]'
                   }`}
                 >
+                  <IconBubble selected={motive === item.key}>{motiveIcons[item.key]}</IconBubble>
                   <p className="text-lg font-extrabold text-[#0B173B]">{item.title}</p>
                   <p className="mt-2 text-sm text-slate-600">{item.text}</p>
                 </button>
@@ -130,12 +199,15 @@ export function Onboarding() {
                     key={item}
                     type="button"
                     onClick={() => toggleInterest(item)}
-                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
                       selected
                         ? 'border-[#1EA0E8] bg-[#1EA0E8] text-white'
                         : 'border-slate-300 bg-white text-[#0B173B] hover:border-[#94d0f1]'
                     }`}
                   >
+                    <IconBubble selected={selected} compact>
+                      <span className="text-[10px] font-black">{interestIcons[item]}</span>
+                    </IconBubble>
                     {item}
                   </button>
                 )
@@ -157,6 +229,12 @@ export function Onboarding() {
               <div className="h-full w-[85%] rounded-full bg-[#1EA0E8]" />
             </div>
             <p className="mt-3 text-center text-slate-600">Casi terminamos...</p>
+            <p className="mx-auto mt-5 flex w-fit items-center gap-2 rounded-full border border-[#B8DFF4] bg-[#F0FAFF] px-4 py-2 text-sm font-semibold text-[#0B173B]">
+              <IconBubble compact>
+                <SparkIcon />
+              </IconBubble>
+              Guido esta optimizando rutas para ti
+            </p>
           </>
         ) : null}
 
