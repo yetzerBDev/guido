@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useStandaloneMode } from '../hooks/useStandaloneMode'
 import { useAuth } from '../hooks/useAuth'
 
 export function LoginRegistro() {
   const { user, loading, signInWithGoogle, signOut } = useAuth()
+  const isStandalone = useStandaloneMode()
   const navigate = useNavigate()
   const [message, setMessage] = useState('')
   const [authLoading, setAuthLoading] = useState(false)
 
   useEffect(() => {
     if (user) {
-      navigate('/', { replace: true })
+      navigate(isStandalone ? '/explorar' : '/', { replace: true })
     }
-  }, [user, navigate])
+  }, [user, navigate, isStandalone])
 
   const handleGoogleAuth = async () => {
     setAuthLoading(true)
@@ -30,25 +32,21 @@ export function LoginRegistro() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f2f4f7]">
-      <section className="mx-auto flex w-full max-w-md flex-col items-center px-6 pb-10 pt-12 sm:pt-16">
-        <p className="text-[56px] font-black tracking-tight text-[#1EA0E8] sm:text-[64px]">GUIDO</p>
+    <main className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#F6F8FC_0%,#EEF4FB_52%,#F8FAFE_100%)]">
+      <section className="mx-auto flex w-full max-w-md flex-col items-center px-6 pb-10 pt-8 sm:pt-10">
+        <img
+          src="/GUIDO_SALUDANDO.png"
+          alt="Guido saludando"
+          className="reveal-float pointer-events-none -mb-4 h-[330px] w-auto object-contain drop-shadow-[0_18px_30px_rgba(6,19,56,0.18)] sm:h-[390px]"
+        />
 
-        <div className="mt-7 w-full rounded-[34px] bg-white p-8 shadow-[0_18px_44px_rgba(30,160,232,0.18)] sm:p-10">
-          <img
-            src="/GUIDO_SALUDANDO.png"
-            alt="Guido saludando"
-            className="mx-auto h-64 w-auto object-contain sm:h-72"
-          />
-        </div>
-
-        <h1 className="mt-10 text-center text-5xl font-black leading-[1.08] tracking-tight text-[#061338] sm:text-6xl">
+        <h1 className="reveal-up text-center text-5xl font-black leading-[1.08] tracking-tight text-[#061338] sm:text-6xl">
           Hola, soy Guido,
           <br />
           tu guia personal.
         </h1>
 
-        <p className="mt-6 text-center text-xl leading-relaxed text-[#455A78] sm:text-2xl">
+        <p className="reveal-up mt-6 text-center text-xl leading-relaxed text-[#455A78] sm:text-2xl">
           Conectate con Google y empecemos a disenar tu aventura perfecta en La Ceiba.
         </p>
 
@@ -70,7 +68,7 @@ export function LoginRegistro() {
             type="button"
             onClick={handleGoogleAuth}
             disabled={authLoading}
-            className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-[#1EA0E8] px-6 py-4 text-xl font-extrabold text-white shadow-[0_10px_24px_rgba(30,160,232,0.38)] transition hover:bg-[#1692d8] disabled:cursor-not-allowed disabled:opacity-70"
+            className="reveal-up mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-[#1EA0E8] px-6 py-4 text-xl font-extrabold text-white shadow-[0_10px_24px_rgba(30,160,232,0.38)] transition hover:-translate-y-0.5 hover:bg-[#1692d8] disabled:cursor-not-allowed disabled:opacity-70"
           >
             <span className="grid h-10 w-10 place-content-center rounded-full bg-white">
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
@@ -98,12 +96,12 @@ export function LoginRegistro() {
 
         {message ? <p className="mt-4 text-center text-sm text-red-600">{message}</p> : null}
 
-        <p className="mt-6 text-center text-sm leading-relaxed text-[#8B9AB3]">
+        <p className="reveal-up mt-6 text-center text-sm leading-relaxed text-[#8B9AB3]">
           Al continuar, aceptas que GUIDO gestione tus planes de viaje y acceda a tu perfil
           publico.
         </p>
 
-        <Link to="/terminos" className="mt-9 text-xl font-semibold text-[#2AA7EA] hover:underline">
+        <Link to="/terminos" className="reveal-up mt-9 text-xl font-semibold text-[#2AA7EA] hover:underline">
           Terminos y Condiciones
         </Link>
 

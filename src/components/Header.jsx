@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
+import { useStandaloneMode } from '../hooks/useStandaloneMode'
 
 function navClassName({ isActive }) {
   return isActive
@@ -7,14 +8,17 @@ function navClassName({ isActive }) {
 }
 
 export function Header() {
+  const isStandalone = useStandaloneMode()
+  const homePath = isStandalone ? '/explorar' : '/'
+
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link to="/" className="text-xl font-black tracking-tight text-guidoInk">
+        <Link to={homePath} className="text-xl font-black tracking-tight text-guidoInk">
           GUIDO
         </Link>
         <nav className="flex items-center gap-2">
-          <NavLink to="/" end className={navClassName}>
+          <NavLink to={homePath} end className={navClassName}>
             Inicio
           </NavLink>
           <NavLink to="/login" className={navClassName}>
